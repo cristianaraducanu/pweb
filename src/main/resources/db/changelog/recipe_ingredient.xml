@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="CR" id="create_recipe_ingredient_table">
+        <createTable tableName="recipe_ingredient">
+            <column name="recipe_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ingredient_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="recipe_id,ingredient_id" constraintName="pk_recipe_ingredient" tableName="recipe_ingredient"/>
+
+        <addForeignKeyConstraint baseTableName="recipe_ingredient"
+                                 baseColumnNames="recipe_id"
+                                 constraintName="recipe_ingredient_recipe_fk"
+                                 referencedTableName="recipe"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="recipe_ingredient"
+                                 baseColumnNames="ingredient_id"
+                                 constraintName="recipe_ingredient_ingredient_fk"
+                                 referencedTableName="ingredient"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="add_amount" author="CR">
+        <addColumn tableName="recipe_ingredient">
+            <column name="amount" type="bigint"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add_id" author="CR">
+        <addColumn tableName="recipe_ingredient">
+            <column name="id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
